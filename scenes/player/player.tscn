@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cy0k5ykm6inj2"]
+
+[ext_resource type="Script" uid="uid://dd1arymop24dk" path="res://scripts/characters/player/player.gd" id="1_dovo2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8afob"]
+radius = 25.02
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_dovo2")
+move_speed = 500.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_8afob")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
