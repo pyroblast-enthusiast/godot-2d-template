@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0runjm80c0x1"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1fpig"]
+radius = 90.0
+height = 354.0
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kiqu4"]
+animations = [{
+"frames": [],
+"loop": false,
+"name": &"walking",
+"speed": 12.0
+}]
+
+[node name="Playground" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(245, 242)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0, -103.005)
+scale = Vector2(0.9, 0.6)
+shape = SubResource("CapsuleShape2D_1fpig")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="CharacterBody2D"]
+position = Vector2(0, -128)
+sprite_frames = SubResource("SpriteFrames_kiqu4")
+animation = &"walking"
+frame_progress = 1.0
