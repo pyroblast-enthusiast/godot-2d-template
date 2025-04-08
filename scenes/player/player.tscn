@@ -1,8 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cy0k5ykm6inj2"]
+[gd_scene load_steps=10 format=3 uid="uid://cy0k5ykm6inj2"]
 
 [ext_resource type="Script" uid="uid://dd1arymop24dk" path="res://scripts/characters/player/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://d3si5mdr1ve5h" path="res://assets/sprites/PlayerSprite02.png" id="2_dovo2"]
 [ext_resource type="Script" uid="uid://bbuuh1qn4w4xa" path="res://scripts/patterns/design/state_machine.gd" id="3_gmlin"]
+[ext_resource type="Script" uid="uid://siptpv6yaxwk" path="res://scripts/patterns/design/state_idle.gd" id="4_lvxji"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8afob"]
 radius = 25.02
@@ -64,7 +65,6 @@ _data = {
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_dovo2")
-move_speed = 15500.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_8afob")
@@ -84,5 +84,6 @@ frame = 7
 script = ExtResource("3_gmlin")
 
 [node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("4_lvxji")
 
 [node name="Walk" type="Node" parent="StateMachine"]

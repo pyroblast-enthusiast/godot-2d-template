@@ -11,14 +11,27 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	pass
+	change_state(current_state.process(delta))
+
+
+func _physics_process(delta: float) -> void:
+	change_state(current_state.physics_process(delta))
 	
 	
-func initialize() -> void:
+func _unhandled_input(event: InputEvent) -> void:
+	change_state(current_state.unhandled_input(event))
+	
+	
+func initialize(player: Player) -> void:
 	for child in get_children():
 		if child is State:
 			states.append(child)
 	
+	if states.size() > 0:
+		states[0].player = player
+		change_state(states[0])
+		process_mode = Node.PROCESS_MODE_INHERIT
+		
 	
 func change_state(new_state: State) -> void:
 	if new_state == null || new_state == current_state:
@@ -31,55 +44,3 @@ func change_state(new_state: State) -> void:
 	current_state = new_state
 	
 	current_state.enter()
-
-
-
-#@export var initial_node_state : State
-#
-#var parent_node_name: String
-#var node_states : Dictionary = {}
-#var current_node_state : State
-#var current_node_state_name : String
-#
-#
-#func _ready() -> void:
-	#parent_node_name = get_parent().name
-	#
-	#for child in get_children():
-		#if child is State:
-			#node_states[child.name.to_lower()] = child
-			#child.transition.connect(transition_to)
-	#
-	#if initial_node_state:
-		#initial_node_state.enter()
-		#current_node_state = initial_node_state
-		#current_node_state_name = initial_node_state.name.to_lower()
-#
-#
-#func _process(delta : float) -> void:
-	#if current_node_state:
-		#current_node_state._process(delta)
-#
-#
-#func _physics_process(delta: float) -> void:
-	#if current_node_state:
-		#current_node_state._physics_process(delta)
-		#current_node_state.next_transition()
-#
-#
-#func transition_to(node_state_name : String) -> void:
-	#if node_state_name == current_node_state.name.to_lower():
-		#return
-	#
-	#var new_node_state = node_states.get(node_state_name.to_lower())
-	#
-	#if !new_node_state:
-		#return
-	#
-	#if current_node_state:
-		#current_node_state.exit()
-	#
-	#new_node_state.enter()
-	#
-	#current_node_state = new_node_state
-	#current_node_state_name = current_node_state.name.to_lower()

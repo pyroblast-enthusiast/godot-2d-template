@@ -1,18 +1,9 @@
-class_name State
-extends Node
-
-
-signal transition 
-
-# stores a reference to the player that this state belongs to
-static var player: Player
-
-func _ready() -> void:
-	printerr("method not implemented")
+class_name StateIdle
+extends State
 
 
 func enter() -> void:
-	printerr("method not implemented")
+	player.update_animation("idle")
 	
 	
 func process(_delta : float) -> State:

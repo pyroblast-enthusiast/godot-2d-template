@@ -2,27 +2,21 @@ class_name Player
 extends CharacterBody2D
 
 
-@export var move_speed: float = 0
-
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var sprite_2d: Sprite2D = $Sprite2D
+@onready var state_machine: StateMachine = $StateMachine
 
 var cardinal_direction: Vector2 = Vector2.DOWN
 var direction: Vector2 = Vector2.ZERO
-var state: String = "idle"
 
 
 func _ready() -> void:
-	pass
-	
+	state_machine.initialize(self)
+		
 	
 func _process(delta: float) -> void:
 	direction.x = Input.get_action_strength("right") - Input.get_action_strength("left")
 	direction.x = Input.get_action_strength("down") - Input.get_action_strength("up")
-	velocity = direction * move_speed * delta
-	
-	if set_state() == true || set_direction() == true:
-		update_animation()
 	
 	
 func _physics_process(delta: float) -> void:
@@ -47,15 +41,8 @@ func set_direction() -> bool:
 	return true
 	
 	
-func set_state() -> bool:
-	var new_state: String = "idle" if direction == Vector2.ZERO else "walk"
-	if new_state == state:
-		return false
-	state = new_state
-	return true
 	
-	
-func update_animation() -> void:
+func update_animation(state: String) -> void:
 	animation_player.play(state + "_" + animation_direction())
 	
 	
