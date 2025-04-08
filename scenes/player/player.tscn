@@ -1,9 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://cy0k5ykm6inj2"]
+[gd_scene load_steps=11 format=3 uid="uid://cy0k5ykm6inj2"]
 
 [ext_resource type="Script" uid="uid://dd1arymop24dk" path="res://scripts/characters/player/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://d3si5mdr1ve5h" path="res://assets/sprites/PlayerSprite02.png" id="2_dovo2"]
 [ext_resource type="Script" uid="uid://bbuuh1qn4w4xa" path="res://scripts/patterns/design/state_machine.gd" id="3_gmlin"]
 [ext_resource type="Script" uid="uid://siptpv6yaxwk" path="res://scripts/patterns/design/state_idle.gd" id="4_lvxji"]
+[ext_resource type="Script" uid="uid://ch7k1k640xae4" path="res://scripts/patterns/design/state_walk.gd" id="5_p47bc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8afob"]
 radius = 25.02
@@ -11,6 +12,7 @@ radius = 25.02
 [sub_resource type="Animation" id="Animation_gmlin"]
 resource_name = "idle_down"
 length = 0.4
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -78,12 +80,15 @@ libraries = {
 texture = ExtResource("2_dovo2")
 hframes = 16
 vframes = 3
-frame = 7
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("3_gmlin")
 
-[node name="Idle" type="Node" parent="StateMachine"]
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("walk_state")]
 script = ExtResource("4_lvxji")
+walk_state = NodePath("../Walk")
 
-[node name="Walk" type="Node" parent="StateMachine"]
+[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
+script = ExtResource("5_p47bc")
+idle_state = NodePath("../Idle")
+animation_name = "walk"
