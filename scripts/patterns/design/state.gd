@@ -4,25 +4,31 @@ extends Node
 
 signal transition 
 
+# stores a reference to the player that this state belongs to
+static var player: Player
+
+func _ready() -> void:
+	printerr("method not implemented")
+
 
 func enter() -> void:
 	printerr("method not implemented")
+	
+	
+func process(_delta : float) -> State:
+	return null
 
 
-func handle_input() -> void:
-	printerr("method not implemented")
+func physics_process(_delta : float) -> State:
+	return null
+	
 
+func handle_input(event: InputEvent) -> State:
+	return null
+	
 
-func _process(_delta : float) -> void:
-	printerr("method not implemented")
-
-
-func _physics_process(_delta : float) -> void:
-	printerr("method not implemented")
-
-
-func next_transition() -> void:
-	printerr("method not implemented")
+#func next_transition() -> void:
+	#printerr("method not implemented")
 
 
 func exit() -> void:
