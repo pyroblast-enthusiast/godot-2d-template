@@ -30,9 +30,10 @@ window/stretch/mode="viewport"
 [file_customization]
 
 folder_colors={
-"res://assets/": "blue",
-"res://components/": "orange",
-"res://levels/": "teal",
+"res://assets/": "orange",
+"res://components/": "red",
+"res://levels/": "blue",
+"res://resources/": "green",
 "res://scenes/": "green",
 "res://scripts/": "red"
 }
