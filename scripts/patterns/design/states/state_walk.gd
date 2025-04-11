@@ -2,6 +2,8 @@ class_name StateWalk
 extends State
 
 @export var idle_state: StateIdle
+@export var attack_state: StateAttack
+
 @export var animation_name: String = ''
 @export var movement_speed: float = 100.0
 

@@ -1,13 +1,77 @@
-[gd_scene load_steps=15 format=3 uid="uid://cy0k5ykm6inj2"]
+[gd_scene load_steps=19 format=3 uid="uid://cy0k5ykm6inj2"]
 
 [ext_resource type="Script" uid="uid://dd1arymop24dk" path="res://scripts/characters/player/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://d3si5mdr1ve5h" path="res://assets/sprites/PlayerSprite02.png" id="2_dovo2"]
 [ext_resource type="Script" uid="uid://bbuuh1qn4w4xa" path="res://scripts/patterns/design/state_machine.gd" id="3_gmlin"]
-[ext_resource type="Script" uid="uid://siptpv6yaxwk" path="res://scripts/patterns/design/state_idle.gd" id="4_lvxji"]
-[ext_resource type="Script" uid="uid://ch7k1k640xae4" path="res://scripts/patterns/design/state_walk.gd" id="5_p47bc"]
+[ext_resource type="Script" uid="uid://siptpv6yaxwk" path="res://scripts/patterns/design/states/state_idle.gd" id="4_lvxji"]
+[ext_resource type="Script" uid="uid://ch7k1k640xae4" path="res://scripts/patterns/design/states/state_walk.gd" id="5_p47bc"]
+[ext_resource type="Script" uid="uid://b5ml3jyhlb5r0" path="res://scripts/patterns/design/states/state_attack.gd" id="6_75vfm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8afob"]
 radius = 25.02
+
+[sub_resource type="Animation" id="Animation_5gtgg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [3]
+}
+
+[sub_resource type="Animation" id="Animation_h17s1"]
+resource_name = "attack_down"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [21, 23]
+}
+
+[sub_resource type="Animation" id="Animation_fm80t"]
+resource_name = "attack_side"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [27, 29]
+}
+
+[sub_resource type="Animation" id="Animation_je7p5"]
+resource_name = "attack_up"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [24, 26]
+}
 
 [sub_resource type="Animation" id="Animation_gmlin"]
 resource_name = "idle_down"
@@ -75,22 +139,6 @@ tracks/0/keys = {
 "values": [9, 12]
 }
 
-[sub_resource type="Animation" id="Animation_0owmy"]
-resource_name = "walk_up"
-length = 0.4
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [13, 16]
-}
-
 [sub_resource type="Animation" id="Animation_qek5x"]
 resource_name = "walk_side"
 length = 0.4
@@ -107,8 +155,9 @@ tracks/0/keys = {
 "values": [17, 20]
 }
 
-[sub_resource type="Animation" id="Animation_5gtgg"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_0owmy"]
+resource_name = "walk_up"
+length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -116,15 +165,18 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [3]
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [13, 16]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_75vfm"]
 _data = {
 &"RESET": SubResource("Animation_5gtgg"),
+&"attack_down": SubResource("Animation_h17s1"),
+&"attack_side": SubResource("Animation_fm80t"),
+&"attack_up": SubResource("Animation_je7p5"),
 &"idle_down": SubResource("Animation_gmlin"),
 &"idle_side": SubResource("Animation_p47bc"),
 &"idle_up": SubResource("Animation_lvxji"),
@@ -156,13 +208,21 @@ frame = 3
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource("3_gmlin")
 
-[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("walk_state")]
+[node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("walk_state", "attack_state")]
 script = ExtResource("4_lvxji")
 walk_state = NodePath("../Walk")
+attack_state = NodePath("../Attack")
 
-[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state")]
+[node name="Walk" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "attack_state")]
 script = ExtResource("5_p47bc")
 idle_state = NodePath("../Idle")
+attack_state = NodePath("../Attack")
 animation_name = "walk"
+
+[node name="Attack" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "walk_state", "animation_player")]
+script = ExtResource("6_75vfm")
+idle_state = NodePath("../Walk")
+walk_state = NodePath("../Walk")
+animation_player = NodePath("../../AnimationPlayer")
 
 [node name="Camera2D" type="Camera2D" parent="."]

@@ -2,9 +2,12 @@ class_name StateIdle
 extends State
 
 @export var walk_state: StateWalk
+@export var attack_state: StateAttack
+
 
 func enter() -> void:
 	player.update_animation("idle")
+
 	
 	
 func process(_delta : float) -> State:
@@ -19,12 +22,10 @@ func physics_process(_delta : float) -> State:
 	
 
 func unhandled_input(event: InputEvent) -> State:
+	if event.is_action_pressed("attack"):
+		return attack_state
 	return null
 	
-
-#func next_transition() -> void:
-	#printerr("method not implemented")
-
 
 func exit() -> void:
 	printerr("method not implemented")
